@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Alert;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -40,6 +41,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Emails', 'url' => ['/email/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -58,6 +60,12 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
+        <?php echo !(Yii::$app->session->getFlash('response') === null) ? Alert::widget([
+            'options' => [
+                'class' => sprintf('alert-%s', Yii::$app->session->getFlash('response')['status']),
+            ],
+            'body' => Yii::$app->session->getFlash('response')['body'],
+        ]) : ''; ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
